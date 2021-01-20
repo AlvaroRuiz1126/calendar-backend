@@ -40,11 +40,12 @@ const updateEvent = async (req, res = response) => {
     //los datos que se envian por URL llegan por req en los params
     const eventId = req.params.id
     const uid = req.uid
+    //console.log(req);
 
     try {
         //veifico que el id exista en la base de datos
         const event = await Event.findById(eventId)
-        //console.log(event.user)
+        //console.log(event.user.toString())
 
         if (!event) {
             res.status(404).json({
@@ -53,7 +54,7 @@ const updateEvent = async (req, res = response) => {
             })
         }
 
-        if (event.user !== uid) {
+        if (event.user.toString() !== uid) {
             return res.status(401).json({
                 ok: false,
                 msg: 'No tiene el provilegio de editar el evento'
@@ -108,7 +109,7 @@ const deleteEvent = async (req, res = response) => {
             })
         }
 
-        if (event.user !== uid) {
+        if (event.user.toString() !== uid) {
             return res.status(401).json({
                 ok: false,
                 msg: 'No tiene el provilegio de eliminar el evento'
